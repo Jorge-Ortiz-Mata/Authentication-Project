@@ -11,6 +11,7 @@ If you want to run this web application in local, you should run and install thi
 4. Install Nodemon: npm install nodemon.
 5. Install Mongoose: npm install mongoose.
 6. Install Mongoose-Encryption: npm install mongoose-encryption.
+7. Install Dotenv: npm install dotenv --save.
 
 ## Web application.
 
