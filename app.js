@@ -1,12 +1,15 @@
 //jshint esversion:6
 require('dotenv').config();
+const md5 = require('md5');
 const express = require('express');
 const bodyParser = require('body-parser');
 const ejs = require('ejs');
 const mongoose = require('mongoose');
-const encrypt = require('mongoose-encryption');
+// const encrypt = require('mongoose-encryption');
 const app = express();
 const port = 3000;
+
+console.log(md5("123"));
 
 mongoose.connect("mongodb://localhost:27017/usersDB", { useNewUrlParser: true });
 
@@ -15,7 +18,7 @@ const userSchema = new mongoose.Schema({
     password: String
 });
 
-userSchema.plugin(encrypt, { secret: process.env.SECRET_ENCRYPT_KEY, encryptedFields: ['password'] });
+//userSchema.plugin(encrypt, { secret: process.env.SECRET_ENCRYPT_KEY, encryptedFields: ['password'] });
 
 const User = new mongoose.model("User", userSchema);
 
@@ -42,7 +45,7 @@ app.get("/register", (req, res) => {
 app.post("/register", (req, res) => {
     const user = new User ({
         email: req.body.username,
-        password: req.body.password
+        password: md5(req.body.password)
     });
     user.save(function(err){
         if(err){
@@ -55,7 +58,7 @@ app.post("/register", (req, res) => {
 
 app.post("/login", (req, res) => {
     const email = req.body.username;
-    const password = req.body.password;
+    const password = md5(req.body.password);
     User.findOne({email: email}, function(err, userFounded){
         if(err){
             console.log(err);
