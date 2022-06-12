@@ -5,11 +5,11 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const ejs = require('ejs');
 const mongoose = require('mongoose');
+const bcrypt = require('bcryptjs');
+const saltRounds = 5;
 // const encrypt = require('mongoose-encryption');
 const app = express();
 const port = 3000;
-
-console.log(md5("123"));
 
 mongoose.connect("mongodb://localhost:27017/usersDB", { useNewUrlParser: true });
 
@@ -45,7 +45,7 @@ app.get("/register", (req, res) => {
 app.post("/register", (req, res) => {
     const user = new User ({
         email: req.body.username,
-        password: md5(req.body.password)
+        password: bcrypt.hashSync(req.body.password, saltRounds)
     });
     user.save(function(err){
         if(err){
@@ -58,16 +58,18 @@ app.post("/register", (req, res) => {
 
 app.post("/login", (req, res) => {
     const email = req.body.username;
-    const password = md5(req.body.password);
+    const password = req.body.password;
     User.findOne({email: email}, function(err, userFounded){
         if(err){
             console.log(err);
-        } else {
-            if(userFounded.password === password){
+        } else if(userFounded){
+            if(bcrypt.compareSync(password, userFounded.password)){
                 res.render('secrets');
             } else {
                 res.redirect("/login");
             }
+        } else {
+            res.redirect("/login");
         }
     });
 });

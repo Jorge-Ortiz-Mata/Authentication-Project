@@ -6,13 +6,14 @@ The Authentication project was built using EJS, Node, Express and MongoDB. The p
 
 If you want to run this web application in local, you should run and install this packages.
 
-1. Initialize NPM: npm init.
-2. Install Express JS: npm install ejs.
-3. Install Body-Parser: npm install body-parser.
-4. Install Nodemon: npm install nodemon.
-5. Install Mongoose: npm install mongoose.
-6. Install Mongoose-Encryption: npm install mongoose-encryption.
-7. Install Dotenv: npm install dotenv --save.
+1. Initialize NPM: `npm init`.
+2. Install Express JS: `npm install ejs`.
+3. Install Body-Parser: `npm install body-parser`.
+4. Install Nodemon: `npm install nodemon`.
+5. Install Mongoose: `npm install mongoose`.
+6. Install Mongoose-Encryption: `npm install mongoose-encryption`.
+7. Install Dotenv: `npm install dotenv --save`.
+8. Install BycriptJS: `npm install bcryptjs`.
 
 ## Web application.
 
