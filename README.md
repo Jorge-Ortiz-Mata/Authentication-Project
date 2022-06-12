@@ -1,5 +1,6 @@
 # Authentication Project.
 
+The Authentication project was built using EJS, Node, Express and MongoDB. The purpose of this project is to implement a sign in web application where each user must be registered in this app in order to have completely access.
 
 ## Node packages.
 
@@ -17,13 +18,9 @@ If you want to run this web application in local, you should run and install thi
 
 In the section below, you can find images about this web aaplication in production.
 
-![](images/daily-home.png).
+![](images/secrets_1.png).
 
-
-![](images/daily-app01.png).
-
-
-![](images/daily-app012.png).
+![](images/secrets_2.png).
 
 ## Author
 
