@@ -14,6 +14,10 @@ If you want to run this web application in local, you should run and install thi
 6. Install Mongoose-Encryption: `npm install mongoose-encryption`.
 7. Install Dotenv: `npm install dotenv --save`.
 8. Install BycriptJS: `npm install bcryptjs`.
+9. Install Passport: `npm install passport`.
+9. Install Passport Local: `npm install passport-local`.
+9. Install Passport Local Mongoose: `npm install passport-local-mongoose`.
+9. Install Express Sesion: `npm install express-session`.
 
 ## Web application.
 
