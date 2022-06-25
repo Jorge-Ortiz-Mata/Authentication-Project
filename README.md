@@ -15,9 +15,16 @@ If you want to run this web application in local, you should run and install thi
 7. Install Dotenv: `npm install dotenv --save`.
 8. Install BycriptJS: `npm install bcryptjs`.
 9. Install Passport: `npm install passport`.
-9. Install Passport Local: `npm install passport-local`.
-9. Install Passport Local Mongoose: `npm install passport-local-mongoose`.
-9. Install Express Sesion: `npm install express-session`.
+10. Install Passport Local: `npm install passport-local`.
+11. Install Passport Local Mongoose: `npm install passport-local-mongoose`.
+12. Install Express Sesion: `npm install express-session`.
+13. Install Passport Google Oauth: `npm install passport-google-oauth20`.
+14. Install Mongoose FingOrCreate: `npm install mongoose-findorcreate`.
+
+## Authentication with Google
+
+In order to authenticate using Google, we should install some packages and create our web application
+in the Google Cloud Console.
 
 ## Web application.
 
