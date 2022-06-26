@@ -12,9 +12,9 @@ If you want to run this web application in local, you should run and install thi
 3. Install Body-Parser: `npm install body-parser`.
 4. Install Nodemon: `npm install nodemon`.
 5. Install Mongoose: `npm install mongoose`.
-6. Install Mongoose-Encryption: `npm install mongoose-encryption`.
+6. Install Mongoose-Encryption: `npm install mongoose-encryption`. <--- This was deleted further in the application.
 7. Install Dotenv: `npm install dotenv --save`.
-8. Install BycriptJS: `npm install bcryptjs`.
+8. Install BycriptJS: `npm install bcryptjs`. <--- This was deleted further in the application.
 9. Install Passport: `npm install passport`.
 10. Install Passport Local: `npm install passport-local`.
 11. Install Passport Local Mongoose: `npm install passport-local-mongoose`.
@@ -26,6 +26,16 @@ If you want to run this web application in local, you should run and install thi
 
 In order to authenticate using Google, we should install some packages and create our web application
 in the Google Cloud Console.
+* Create the project.
+* Go to the **OAuth consent screen** and add the configuration for this project (select external).
+* Create credentials, the web application and download your secrets keys.
+
+For reference: 
+
+* Javascript auth: http://localhost:3000
+* URI auth: http://localhost:3000/auth/google/secrets
+
+Once you've done that, add the neccesary configuration within your app.js and include the urls that you have specified.
 
 ## Web application.
 
