@@ -1,6 +1,8 @@
 //jshint esversion:6
-require('dotenv').config();
-const md5 = require('md5');
+
+// ---------- Require packages and modules ---------------
+
+require('dotenv').config(); // This is the package for dotenv.
 const express = require('express');
 const bodyParser = require('body-parser');
 const ejs = require('ejs');
@@ -13,6 +15,9 @@ const findOrCreate = require('mongoose-findorcreate');
 
 const app = express();
 const port = 3000;
+
+// -------------------------------------------
+// -------- Web configuration. ---------------
 
 app.use(bodyParser.urlencoded({extended: true}));
 app.use(express.static("public"));
@@ -27,6 +32,9 @@ app.use(session({
 app.use(passport.initialize());
 app.use(passport.session());
 
+// -------------------------------------------
+// -------- Database configuration. ---------------
+
 mongoose.connect("mongodb://localhost:27017/usersDB", { useNewUrlParser: true });
 
 const userSchema = new mongoose.Schema({
@@ -36,24 +44,32 @@ const userSchema = new mongoose.Schema({
     secret: String 
 });
 
+// ----------------------------------------------
+// -------- Plugins configuration. ---------------
+
 userSchema.plugin(passportLocalMongoose);
 userSchema.plugin(findOrCreate);
 
-//userSchema.plugin(encrypt, { secret: process.env.SECRET_ENCRYPT_KEY, encryptedFields: ['password'] });
+// ----------------------------------------------
+// -------- Schema configuration. ---------------
 
 const User = new mongoose.model("User", userSchema);
 
-passport.use(User.createStrategy());
+// ----------------------------------------------
+// -------- Sessions and cookies with Passport configuration. --------------
 
+passport.use(User.createStrategy());
 passport.serializeUser(function(user, done){
     done(null, user.id);
 });
-
 passport.deserializeUser(function(id, done){
     User.findById(id, function(err, user){
         done(err, user);
     });
 });
+
+// ----------------------------------------------
+// -------- Google Authentication. ---------------
 
 passport.use(new GoogleStrategy({
     clientID: process.env.GOOGLE_CLIENT_ID,
@@ -69,12 +85,14 @@ passport.use(new GoogleStrategy({
   }
 ));
 
+// ----------------------------------
 // -------------- GET ---------------
 
 app.get("/", (req, res) => {
     res.render('home');
 });
 
+// --- Google authentication routes -----
 app.route('/auth/google')
   .get(passport.authenticate('google', {
     scope: ['profile']
@@ -86,6 +104,8 @@ app.get('/auth/google/secrets',
         res.redirect('/secrets');
 });
 
+// --- ---------------- -----
+
 app.get("/login", (req, res) => {
     res.render('login');
 });
@@ -95,8 +115,8 @@ app.get("/register", (req, res) => {
 });
 
 app.get("/secrets", (req, res) => {
-    if(req.isAuthenticated()){
-        User.find({"secret": {$ne:null}}, function(err, usersList){
+    if(req.isAuthenticated()){  // This allows to visit the webpage only if the user is authenticate.
+        User.find({"secret": {$ne:null}}, function(err, usersList){ // Get only all the users with their secrets
             if(err){
                 console.log(err);
                 res.redirect("/login");
@@ -110,7 +130,7 @@ app.get("/secrets", (req, res) => {
 });
 
 app.get("/submit", (req, res) => {
-    if(req.isAuthenticated()){
+    if(req.isAuthenticated()){  // This allows to visit the webpage only if the user is authenticate.
         res.render("submit");
     } else {
         res.redirect("/login");
@@ -118,7 +138,7 @@ app.get("/submit", (req, res) => {
 });
 
 app.get('/logout', function(req, res, next) {
-    req.logout(function(err) {
+    req.logout(function(err) {  // This allows to visit the webpage only if the user is authenticate.
       if (err) { return next(err); }
       res.redirect('/');
     });
@@ -159,7 +179,7 @@ app.post("/login", (req, res) => {
 
 app.post("/submit", (req, res) => {
     const submittedSecret = req.body.secret;
-    User.findById(req.user.id, function(err, userFounded){
+    User.findById(req.user.id, function(err, userFounded){ // Find the user by its ID and assign a secret.
         if(err){
             console.log(err);
         } else {
@@ -168,7 +188,6 @@ app.post("/submit", (req, res) => {
             res.redirect("/submit")
         }
     });
-    // console.log(req.user);
 });
 
 // -------------- PORTS ---------------
