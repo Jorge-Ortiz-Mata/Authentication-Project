@@ -32,7 +32,8 @@ mongoose.connect("mongodb://localhost:27017/usersDB", { useNewUrlParser: true })
 const userSchema = new mongoose.Schema({
     email: String,
     password: String,
-    googleId: String
+    googleId: String,
+    secret: String 
 });
 
 userSchema.plugin(passportLocalMongoose);
@@ -95,7 +96,22 @@ app.get("/register", (req, res) => {
 
 app.get("/secrets", (req, res) => {
     if(req.isAuthenticated()){
-        res.render("secrets");
+        User.find({"secret": {$ne:null}}, function(err, usersList){
+            if(err){
+                console.log(err);
+                res.redirect("/login");
+            } else {
+                if(usersList){
+                    res.render("secrets", {users: usersList});
+                }
+            }
+        })
+    }
+});
+
+app.get("/submit", (req, res) => {
+    if(req.isAuthenticated()){
+        res.render("submit");
     } else {
         res.redirect("/login");
     }
@@ -139,6 +155,20 @@ app.post("/login", (req, res) => {
             })
         }
     })
+});
+
+app.post("/submit", (req, res) => {
+    const submittedSecret = req.body.secret;
+    User.findById(req.user.id, function(err, userFounded){
+        if(err){
+            console.log(err);
+        } else {
+            userFounded.secret = submittedSecret;
+            userFounded.save();
+            res.redirect("/submit")
+        }
+    });
+    // console.log(req.user);
 });
 
 // -------------- PORTS ---------------
